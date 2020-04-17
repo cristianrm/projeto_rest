@@ -22,25 +22,27 @@ import com.example.rest.repository.CategoriaRepository;
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaResource {
-	
+
 	@Autowired
 	CategoriaRepository categoriaRepository;
-	
+
 	@GetMapping
-	public List<Categoria> listar(){
-		
+	public List<Categoria> listar() {
+
 		return categoriaRepository.findAll();
-		
+
 	}
+
 	@PostMapping
 //	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
 		Categoria categoriaSalva = categoriaRepository.save(categoria);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")
+				.buildAndExpand(categoriaSalva.getCodigo()).toUri();
 		response.setHeader("Location", uri.toASCIIString());
 		return ResponseEntity.created(uri).body(categoriaSalva);
 	}
-	
+
 //	@GetMapping
 //	public ResponseEntity<?> listarCategoria(){
 //		List<Categoria> categorias = categoriaRepository.findAll();
@@ -50,19 +52,19 @@ public class CategoriaResource {
 
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
-	  Categoria categoria = categoriaRepository.findById(codigo).orElse(null);
-	  if (categoria!=null) {
-		  return  ResponseEntity.ok(categoria);
-	  }else {
-		  return ResponseEntity.notFound().build();
-	  }
-	  
+		Categoria categoria = categoriaRepository.findById(codigo).orElse(null);
+		if (categoria != null) {
+			return ResponseEntity.ok(categoria);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+
 	}
+
 	@GetMapping("/{codigo2}")
 	public ResponseEntity<Categoria> buscarPeloCodigo2(@PathVariable Long codigo) {
-	  return this.categoriaRepository.findById(codigo)
-	      .map(categoria -> ResponseEntity.ok(categoria))
-	      .orElse(ResponseEntity.notFound().build());
+		return this.categoriaRepository.findById(codigo).map(categoria -> ResponseEntity.ok(categoria))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 }
