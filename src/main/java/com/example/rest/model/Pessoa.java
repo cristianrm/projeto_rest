@@ -7,43 +7,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="pessoa")
+@Table(name = "pessoa")
 public class Pessoa {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Size(min=3, max=255)
-	private String nome;
-	
+	private Long codigo;
+
 	@NotNull
-	private Boolean ativo;
-	
+	private String nome;
+
 	@Embedded
 	private Endereco endereco;
-	
-	public Pessoa(Long id, String nome, boolean ativo, Endereco endereco) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.ativo = ativo;
-		this.endereco = endereco;
-	}
-	
-	public Pessoa() {
-		
+
+	@NotNull
+	private Boolean ativo;
+
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNome() {
@@ -54,14 +41,6 @@ public class Pessoa {
 		this.nome = nome;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
-
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -70,11 +49,19 @@ public class Pessoa {
 		this.endereco = endereco;
 	}
 
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
 
@@ -87,14 +74,12 @@ public class Pessoa {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codigo == null) {
+			if (other.codigo != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
 	}
 	
-	
-
 }
